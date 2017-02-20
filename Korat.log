@@ -1,0 +1,100 @@
+## Korat log
+
+### SortedLinkedList, reuse similar test cases for DoublyLinkedList
+
+$ korat --class  korat.examples.singlylinkedlist.SinglyLinkedList --args 0,3,4,4 --print
+
+Start of Korat Execution for korat.examples.singlylinkedlist.SinglyLinkedList (repOK, [0, 3, 4, 4])
+
+()
+([#0])
+([#0][#0])
+([#0][#0][#0])
+([#0][#0][#1])
+([#0][#1])
+([#0][#1][#0])
+([#0][#1][#1])
+([#0][#1][#2])
+Total explored:71
+New found:9
+
+End of Korat Execution
+Overall time: 0.135 s.
+
+### BinarySearchTree
+
+$ korat --class  korat.examples.searchtree.SearchTree --args 3,0,3,1,3 --print
+
+Start of Korat Execution for korat.examples.searchtree.SearchTree (repOK, [3, 0, 3, 1, 3])
+
+{}
+{ {1} }
+{ {2} }
+{ {3} }
+{ {1 {2} } }
+{ {1 {3} } }
+{ {2 {3} } }
+{ {1 {2 {3} } } }
+{ {1 { {2} 3} } }
+{ { {1} 2} }
+{ { {1} 3} }
+{ { {2} 3} }
+{ { {1 {2} } 3} }
+{ { { {1} 2} 3} }
+{ { {1} 2 {3} } }
+Total explored:178
+New found:15
+
+End of Korat Execution
+Overall time: 0.141 s.
+
+
+
+
+
+Start of Korat Execution for korat.examples.redblacktree.RedBlackTree (repOK, [4])
+
+{{1-0-0}{{0-0-1}}{{2-0-1}{{3-0-0}}}}
+{{1-0-1}{{0-0-1}}{{2-0-1}{{3-0-0}}}}
+{{1-0-0}{{0-0-1}}{{3-0-1}{{2-0-0}}}}
+{{1-0-1}{{0-0-1}}{{3-0-1}{{2-0-0}}}}
+{{2-0-0}{{0-0-1}{{1-0-0}}}{{3-0-1}}}
+{{2-0-1}{{0-0-1}{{1-0-0}}}{{3-0-1}}}
+{{2-0-0}{{1-0-1}{{0-0-0}}}{{3-0-1}}}
+{{2-0-1}{{1-0-1}{{0-0-0}}}{{3-0-1}}}
+Total explored:961
+New found:8
+
+End of Korat Execution
+Overall time: 0.243 s.
+
+Start of Korat Execution for korat.examples.redblacktree.RedBlackTree (repOK, [3])
+
+{{1-0-0}{{0-0-1}}{{2-0-1}}}
+{{1-0-1}{{0-0-0}}{{2-0-0}}}
+{{1-0-1}{{0-0-1}}{{2-0-1}}}
+Total explored:179
+New found:3
+
+End of Korat Execution
+Overall time: 0.194 s.
+
+Start of Korat Execution for korat.examples.redblacktree.RedBlackTree (repOK, [2])
+
+{{0-0-1}{{1-0-0}}}
+{{1-0-1}{{0-0-0}}}
+Total explored:40
+New found:2
+
+End of Korat Execution
+Overall time: 0.19 s.
+
+Start of Korat Execution for korat.examples.redblacktree.RedBlackTree (repOK, [1])
+
+{{0-0-0}}
+{{0-0-1}}
+Total explored:8
+New found:2
+
+End of Korat Execution
+Overall time: 0.192 s.
