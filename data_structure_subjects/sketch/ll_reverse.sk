@@ -1,0 +1,122 @@
+struct Entry {
+    Entry next;
+    int element;
+}
+
+struct LinkedList {
+    Entry head;
+    int size;
+}
+
+Entry newEntry() {
+    Entry n = new Entry();
+    n.next = null;
+    return n;
+}
+//sentinel head
+LinkedList newList() {
+    LinkedList l = new LinkedList();
+    l.head = new Entry();
+    l.head.next = l.head;
+    l.size =0;
+    return l;
+}
+
+void insertSort (LinkedList l, int v) {
+    Entry in = newEntry();
+    in.element = v;
+    Entry e = l.head;
+    while (e.next != l.head) {
+        if (e.next.element < v)
+            e = e.next;
+        else {
+            in.next = e.next;
+            e.next = in;
+            l.size = l.size+1;
+            return;
+        }
+    }
+    in.next = e.next;
+    e.next = in;
+    l.size = l.size+1;
+    return;
+}
+
+void reverse(LinkedList l) {
+    if (l.head.next==l.head)
+        return;
+    Entry ln1 = l.head.next;
+    Entry ln2 = l.head.next.next;
+    Entry ln3 = l.head;
+  //  while (exp(ln1,ln2,ln3,l)) {
+    while (ln2 != l.head) {
+     {|(ln1|ln2|ln3)(.next)?|} = {|(ln1|ln2|ln3)(.next)?|};    
+       {|(ln1|ln2|ln3)(.next)?|} = {|(ln1|ln2|ln3)(.next)?|};     
+      //  ln1.next = ln3;
+		//	ln3 = ln1;
+          {|(ln1|ln2|ln3)(.next)?|} = {|(ln1|ln2|ln3)(.next)?|};      
+		//	ln1 = ln2;
+             {|(ln1|ln2|ln3)(.next)?|} = {|(ln1|ln2|ln3)(.next)?|};   
+		//	ln2 = ln2.next;
+  
+    }
+    l.head.next = ln1;
+   ln1.next = ln3;
+}
+
+bit exp(Entry ln1, Entry ln2, Entry ln3, LinkedList l) {
+Entry lhs = {|(ln1|ln2|ln3)(.next)?|};
+Entry rhs = {|(ln1|ln2|ln3)(.next)?|null|};
+return {|lhs (== | !=) rhs|};
+
+}
+
+harness void insertHarness() {
+    //Empty
+    LinkedList l = null;
+    l = newList();
+    assert l.head.next == l.head;
+    assert l.size ==0;
+
+    //insert 22
+     l = newList();
+    insertSort(l,22);
+    reverse(l);
+    assert l.head.next.element == 22;
+    assert l.head.next.next ==l.head;
+    assert l.size ==1;
+
+    //insert 3,3;
+     l = newList();
+    insertSort(l,3);
+    insertSort(l,3);
+    reverse(l);
+    assert l.head.next.element == 3;
+    assert l.head.next.next.element == 3;
+    assert l.head.next.next.next == l.head;
+    assert l.size ==2;
+
+    //insert 0,-3;
+     l = newList();
+    insertSort(l,0);
+    insertSort(l,-3);
+    reverse(l);
+    assert l.head.next.element == 0;
+    assert l.head.next.next.element == -3;
+    assert l.head.next.next.next == l.head;
+    assert l.size ==2;
+
+    //insert 4,3,1,6;
+     l = newList();
+    insertSort(l,4);
+    insertSort(l,3);
+    insertSort(l,1);
+    insertSort(l,6);
+    reverse(l);
+    assert l.head.next.element == 6;
+    assert l.head.next.next.element == 4;
+    assert l.head.next.next.next.element == 3;
+    assert l.head.next.next.next.next.element == 1;
+    assert l.head.next.next.next.next.next == l.head;
+    assert l.size ==4;
+}

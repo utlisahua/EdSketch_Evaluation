@@ -1,0 +1,106 @@
+
+
+struct Entry{
+    int element;
+    Entry next;
+    Entry previous;
+}
+
+Entry newEntry(){
+    Entry n = new Entry();
+    n.previous = null;
+    n.next = null;
+    return n;
+}
+
+struct LinkedList{
+    Entry head;
+    int size;
+}
+
+LinkedList newList() {
+    LinkedList l = new LinkedList();
+    l.head = newEntry();
+    l.head.next = l.head;
+    l.head.previous = l.head;
+    l.size = 0;
+    return l;
+}
+
+void addFirst(LinkedList l, int v) {
+    Entry e = newEntry();
+    e.element = v;
+    
+   //  e.next = l.head.next;
+      {|e (.next|.previous)?(.next|.previous)?|l.head (.next|.previous)?|} = {|e (.next|.previous)?(.next|.previous)?|l.head (.next|.previous)?|};
+  {|e (.next|.previous)?(.next|.previous)?|l.head (.next|.previous)?|} = {|e (.next|.previous)?(.next|.previous)?|l.head (.next|.previous)?|};
+   {|e (.next|.previous)?(.next|.previous)?|l.head (.next|.previous)?|} = {|e (.next|.previous)?(.next|.previous)?|l.head (.next|.previous)?|};
+ 
+    //   e.previous = l.head;
+   // e.previous.next = e;
+   {|e (.next|.previous)?(.next|.previous)?|l.head (.next|.previous)?|} = {|e (.next|.previous)?(.next|.previous)?|l.head (.next|.previous)?|};
+
+
+
+ //  e.next.previous = e;
+  l.size = l.size+1;
+}
+
+void addLast(LinkedList l, int v) {
+    Entry e = newEntry();
+    e.element = v;
+    e.next = l.head;
+    e.previous = l.head.previous;
+    e.previous.next = e;
+    e.next.previous = e;
+    l.size = l.size+1;
+}
+
+
+harness void addFrontHarness() {
+     //Empty
+     LinkedList l = newList();
+     assert l.size ==0;
+     assert l.head.next == l.head;
+     assert l.head.previous == l.head;
+     
+     //insert 1
+     l = newList();
+     addFirst(l,8);
+     assert l.head.next.element ==8;
+     assert l.head.next.previous == l.head;
+     assert l.head.next.next == l.head;
+     assert l.size ==1;
+     
+     //insert 2
+     l = newList();
+     addFirst(l,8);
+     addFirst(l,5);
+     assert l.head.next.element ==5;
+     assert l.head.next.previous == l.head;
+     assert l.head.next.next.element == 8;
+     
+     assert l.head.next.next.element ==8;
+     assert l.head.next.next.previous.element == 5;
+     assert l.head.next.next.next == l.head;     
+     assert l.size ==2;
+     
+      //insert 3
+     l = newList();
+     addFirst(l,8);
+     addFirst(l,5);
+     addFirst(l,13);
+     assert l.head.next.element ==13;
+     assert l.head.next.previous == l.head;
+     assert l.head.next.next.element == 5;
+     
+     assert l.head.next.next.element ==5;
+     assert l.head.next.next.previous.element == 13;
+     assert l.head.next.next.next.element == 8;    
+     
+     assert l.head.next.next.next.element ==8;
+     assert l.head.next.next.next.previous.element == 5;
+     assert l.head.next.next.next.next == l.head; 
+     assert l.size ==3;
+}
+

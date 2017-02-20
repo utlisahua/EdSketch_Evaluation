@@ -1,0 +1,89 @@
+struct Entry {
+    Entry next;
+    int element;
+}
+
+struct LinkedList {
+    Entry head;
+    int size;
+}
+
+Entry newEntry() {
+    Entry n = new Entry();
+    n.next = null;
+    return n;
+}
+//sentinel head
+LinkedList newList() {
+    LinkedList l = new LinkedList();
+    l.head = new Entry();
+    l.head.next = l.head;
+    l.size =0;
+    return l;
+}
+
+bit hasLoop(LinkedList l) {
+    Entry ln1 = l.head;
+    Entry ln2 = l.head;
+    while (true) {
+        ln1 = ln1.next;
+        // {|(ln1|ln2)(.next)?(.next)?|} =  {|(ln1|ln2)(.next)?(.next)?|}; 
+        if (exp(ln1,ln2,l))  
+    // if (ln2.next == l.head || ln2.next.next ==l.head)  
+        return 1;
+        ln2 = ln2.next.next;
+       //    {|(ln1|ln2)(.next)?(.next)?|} =  {|(ln1|ln2)(.next)?(.next)?|};   
+     if (exp(ln1,ln2,l))  
+   // if (ln1 == ln2)
+        return 0; 
+    }
+    return 1;
+}
+
+generator bit exp(Entry ln1, Entry ln2, LinkedList l) {
+Entry lhs  = {|(ln1|ln2)(.next)?|};
+Entry rhs  = {|(ln1|ln2)(.next)?|l.head|};
+return {|lhs (==|!=) rhs |};
+}
+
+harness void insertHarness() {
+    //Empty
+    LinkedList l = null;
+    l = newList();
+    assert hasLoop(l) == 1;
+    assert l.head.next == l.head;
+
+    //insert 22
+     l = newList();
+    Entry n = new Entry();
+    n.element = 22;
+    n.next = l.head;
+    l.head.next = n;
+    assert hasLoop(l)==1;
+    assert l.head.next.element == 22;
+    assert l.head.next.next ==l.head;
+
+    //insert bug
+     n.next = n;
+    assert hasLoop(l)==0;
+    
+    l = newList();
+    n = new Entry();
+    n.element = 22;
+    Entry e = new Entry();
+    e.element = 3;
+    
+    l.head.next = e;
+    e.next = n;
+    n.next = l.head;
+    
+    assert hasLoop(l)==1;
+    assert l.head.next == e;
+    assert l.head.next.next ==n;
+    assert l.head.next.next.next ==l.head;
+    
+    //insert bug
+    n.next = e;
+    assert hasLoop(l)==0;
+    
+}

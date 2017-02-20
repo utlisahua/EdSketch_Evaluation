@@ -1,0 +1,257 @@
+struct Node {
+    int key;
+    Node left;
+    Node right;
+    Node p;//precessor
+    bit color; //black is 0
+}
+
+struct RBT {
+    Node root;
+    Node nil;
+}
+
+Node newNode(int val) {
+    Node n = new Node();
+    n.key = val;
+    n.left = new Node();
+    n.right = new Node();
+    n.p = new Node();
+    n.color = 0;
+    return n;
+}
+
+BST newBST() {
+    BST bst = new BST();
+     nil = new Node();
+    bst.root = nil;
+   
+}
+
+void left_rotate(RBT T, Node x) {
+     Node y = x.right;
+    x.right = y.left;
+      if (exp_node(x,y)) {
+  //  if (y.left!=T.nil) {
+        y.left.p = x;
+   //  {|(x|y)(.left|.right|.p)?(.left|.right|.p)?|} =  {|(x|y)(.left|.right|.p)?(.left|.right|.p)?|};
+        }
+    y.p = x.p;
+   //  {|(x|y)(.left|.right|.p)?(.left|.right|.p)?|} =  {|(x|y)(.left|.right|.p)?(.left|.right|.p)?|};
+      if (exp_node(x,y))
+  // if (x.p ==T.nil)
+         T.root = y;
+          else if (exp_node(x,y)) {
+   // else if (x == x.p.left) {
+        x.p.left = y;
+      //  {|(x|y)(.left|.right|.p)?(.left|.right|.p)?|} =  {|(x|y)(.left|.right|.p)?(.left|.right|.p)?|};
+  }  else  {
+        x.p.right = y;
+       //  {|(x|y)(.left|.right|.p)?(.left|.right|.p)?|} =  {|(x|y)(.left|.right|.p)?(.left|.right|.p)?|};
+        }
+    y.left =x;
+    x.p = y;
+}
+
+void right_rotate(RBT T, Node x) {
+     Node y = x.left;
+    x.left = y.right;
+    if (y.right!=T.nil)
+        y.right.p = x;
+    y.p = x.p;
+    if (x.p ==T.nil)
+        T.root = y;
+    else if (x == x.p.right)
+        x.p.right = y;
+    else 
+        x.p.left = y;
+    y.right =x;
+    x.p = y;
+}
+
+void insert_rbt (RBT T, Node z) {
+    Node y = T.nil;
+     Node x = T.root;
+        while (exp_node(x,z)) {
+  //  while (x!= T.nil) {
+        y=x;
+         if (exp_int(x,y,z))
+      //  if (z.key < x.key)
+            x = x.left;
+        else
+            x = x.right;
+    }
+    z.p = y;
+    if (y==T.nil)
+        T.root = z;
+           else if (exp_int(x,y,z))
+   // else if (z.key < y.key)
+        y.left = z;
+    else 
+        y.right = z;
+    z.left = T.nil;
+    z.right = T.nil;
+    z.color = 1; //red
+    insert_fixup(T,z);
+}
+
+generator bit exp_int(Node x, Node y, Node z) {
+int lhs = {|(x|y|z)(.key)|};
+int rhs = {|(x|y|z)(.key)|};
+return {| lhs (==|!=|>|<|>=|<=) rhs|};
+}
+
+generator bit exp_node(Node x, Node z) {
+Node lhs = {|(x|z)(.left|.right|.p)?(.left|.right|.p)?|};
+Node rhs = {|(x|z)(.left|.right|.p)?(.left|.right|.p)?|null|};
+return {| lhs (==|!=) rhs|};
+}
+
+void insert_fixup(RBT T, Node z) {
+Node y = T.nil;
+    while (z.p!=T.nil && z.p.p!=T.nil && z.p.color ==1) {
+        if (z.p == z.p.p.left) {
+            y = z.p.p.right;
+            if (y.color ==1) {
+                z.p.color = 0;
+                y.color = 0;
+                z.p.p.color = 1;
+                z = z.p.p;
+            }
+            else if (z==z.p.right) {
+                z = z.p;
+                left_rotate(T,z);
+            
+            z.p.color = 0;
+            z.p.p.color =1;
+            right_rotate(T,z.p.p);
+        }
+        }
+        
+        else {
+            y = z.p.p.left;
+            if (y!=T.nil && y.color ==1) {
+                z.p.color = 0;
+                y.color = 0;
+                z.p.p.color = 1;
+                z = z.p.p;
+            }
+            else if (z==z.p.left) {
+                z = z.p;
+                right_rotate(T,z);
+            
+            z.p.color = 0;
+            z.p.p.color =1;
+            left_rotate(T,z.p.p);
+        }
+        }
+    }
+    T.root.color = 0;  
+}
+
+void transplant(RBT T, Node u, Node v) {
+if (v==null) return;
+    if (u.p==T.nil)
+        T.root =v;
+    else if (u == u.p.left)
+        u.p.left = v;
+    else 
+        u.p.right = v;
+    v.p = u.p;  
+}
+
+void delete(RBT T,Node z) {
+    Node y=z;
+    Node x=T.nil;
+    bit y_color = y.color;
+    if (z.left == T.nil) {
+        x = z.right;
+        transplant(T,z,z.right);
+    }
+    else if (z.right ==T.nil) {
+        x = z.left;
+        transplant(T,z,z.left);
+    }
+    else {
+        y = minimum(T, z.right);
+        y_color = y.color;
+        x = y.right;
+        if (y.p==z)
+            x.p = y;
+        else {
+            transplant(T,y,y.right);
+            y.right = z.right;
+            y.right.p = y;
+        }
+        transplant(T,z,y);
+        y.left = z.left;
+        y.left.p = y;
+        y.color =z.color;
+    }
+    if (y_color ==0)
+    delete_fixup(T,x);
+}
+
+void delete_fixup(RBT T,Node z) {
+    Node x = T.nil;
+    while (x!=null && x !=T.root && x.color ==0) {
+        if (x==x.p.left) {
+            Node w = x.p.left;
+            if (w.color == 1) {
+                w.color = 0;
+                x.p.color = 1;
+                left_rotate(T,x.p);
+                w = x.p.right;
+            }
+            if (w.left.color == 0 && w.right.color == 0) {
+                w.color = 1;
+                x = x.p;
+            }
+            else if (w.right.color ==0) {
+                w.left.color = 0;
+                w.color = 1;
+                right_rotate(T,w);
+                w = x.p.right;
+                
+                w.color = x.p.color;
+                x.p.color = 0;
+                w.right.color = 0;
+                left_rotate(T,x.p);
+                x = T.root;
+            }
+        }
+        else {
+            Node w = x.p.right;
+            if (w.color == 1) {
+                w.color = 0;
+                x.p.color = 1;
+                right_rotate(T,x.p);
+                w = x.p.right;
+            }
+            if (w.right.color == 0 && w.left.color == 0) {
+                w.color = 1;
+                x = x.p;
+            }
+            else if (w.left.color ==0) {
+                w.right.color = 0;
+                w.color = 1;
+                left_rotate(T,w);
+                w = x.p.left;
+                
+                w.color = x.p.color;
+                x.p.color = 0;
+                w.left.color = 0;
+                right_rotate(T,x.p);
+                x = T.root;
+            }
+        }
+    }
+    if (x!=null)
+       x.color = 0;
+}
+
+Node minimum(RBT T, Node x) {
+    while (x.left !=T.nil)
+        x = x.left;
+    return x;
+}

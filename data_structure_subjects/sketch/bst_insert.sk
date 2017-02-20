@@ -1,0 +1,114 @@
+struct Node {
+    int key;
+    Node left;
+    Node right;
+    Node p;//precessor
+}
+
+struct BST {
+    Node root;
+    int size;
+}
+
+Node newNode(int val) {
+    Node n = new Node();
+    n.key = val;
+    n.left = null;
+    n.right = null;
+    n.p = null;
+    return n;
+}
+
+BST newBST() {
+    BST bst = new BST();
+    bst.root = null;
+    bst.size = 0;
+    return bst;
+}
+
+bit insert_bst (BST T, int k) {
+    Node x = T.root;
+    Node y = null;
+    
+    while (x != null) {
+        y = x;
+        if (x.key==k)
+            return 1;
+        if (k < x.key)
+            x = x.left;
+        else 
+            x = x.right;
+    }
+
+    x = newNode(k);
+    if (y==null) {
+        T.root = x;
+    } else {
+        if (x.key < y.key) 
+            y.left = x;
+        
+        if (x.key >= y.key) 
+            y.right =x;
+    }
+    x.p = y;
+    T.size = T.size +1;
+    return 0;
+}
+
+harness void insertHarness() {
+    BST bst = newBST();
+    //insert 12
+    insert_bst (bst, 12);
+    assert bst.root.key == 12;
+    assert bst.root.left == null;
+    assert bst.root.right ==null;
+    assert  bst.size ==1;
+    
+    //insert 18
+    insert_bst (bst, 18);
+    assert bst.root.key == 12;
+    assert bst.root.right.key == 18;
+      assert  bst.size ==2;
+      
+        //insert 15
+    insert_bst (bst, 15);
+    assert bst.root.key == 12;
+    assert bst.root.right.key == 18;
+    assert bst.root.right.left.key == 15;
+     assert  bst.size ==3;
+     
+        //insert 5
+    insert_bst (bst, 5);
+    assert bst.root.key == 12;
+    assert bst.root.left.key == 5;
+     assert  bst.size ==4;
+     
+        //insert 9
+        insert_bst (bst, 9);
+    assert bst.root.key == 12;
+    assert bst.root.left.key == 5;
+    assert bst.root.left.right.key ==9;
+     assert  bst.size ==5;
+    
+    //insert 19
+    insert_bst (bst, 19);
+    assert bst.root.key == 12;
+    assert bst.root.right.key == 18;
+    assert bst.root.right.right.key ==19;
+     assert  bst.size ==6;
+     
+    //insert 13
+      insert_bst (bst, 13);
+    assert bst.root.right.key == 18;
+    assert  bst.root.right.left.key == 15;
+    assert bst.root.right.left.left.key == 13;
+     assert  bst.size ==7;
+     
+        //insert 2
+        insert_bst (bst, 2);
+    assert bst.root.left.key == 5;
+    assert bst.root.left.left.key == 2;
+ assert  bst.size ==8;
+    
+}
+

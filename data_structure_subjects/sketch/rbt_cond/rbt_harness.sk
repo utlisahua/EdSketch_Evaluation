@@ -1,0 +1,189 @@
+include "rbt.sk";
+
+harness void insertHarness() {
+    RBT rbt = new RBT();
+    //insert 11
+    Node eleven = newNode(11);
+    insert_rbt (rbt,eleven);
+    assert rbt.root == eleven;
+    assert rbt.root.left ==null;
+    assert rbt.root.right == null;
+    assert eleven.color == 0;
+    //insert 2
+    Node two = newNode(2);
+    insert_rbt (rbt,two);
+    assert rbt.root == eleven;
+    assert eleven.left ==two;
+    assert two.right == null;
+    assert two.left == null;
+    assert two.color == 1;
+    assert two.p  == eleven;
+    //insert 14
+      Node fourteen = newNode(14);
+    insert_rbt (rbt,fourteen);
+    assert rbt.root == eleven;
+    assert eleven.right ==fourteen;
+    assert fourteen.right == null;
+    assert fourteen.left == null;
+    assert fourteen.color ==1;
+    
+    
+        //insert 7
+    Node seven = newNode(7);
+    insert_rbt (rbt,seven);
+    assert rbt.root == eleven;
+    assert eleven.left ==two;
+    assert two.right == seven;
+    assert seven.left == null;
+    assert seven.right == null;
+    assert seven.color == 1;
+    assert two.color ==0;
+        //insert 15
+    Node fifteen = newNode(15);
+    insert_rbt (rbt,fifteen);
+    assert rbt.root == eleven;
+    assert eleven.right ==fourteen;
+    assert fourteen.right == fifteen;
+    assert fourteen.left == null;
+    assert fifteen.right == null;
+    assert fifteen.left == null;
+    assert fifteen.color ==1;
+    assert fourteen.color ==0;
+    
+     //insert 1
+    Node one = newNode(1);
+    insert_rbt (rbt,one);
+    assert rbt.root == eleven;
+    assert eleven.left ==two;
+    assert two.left == one;
+    assert one.left == null;
+    assert one.right == null;
+    assert one.color == 1;
+    assert two.color == 0;
+    
+    //insert 5
+    Node five = newNode(5);
+    insert_rbt (rbt,five);
+    assert rbt.root == eleven;
+    assert eleven.left ==two;
+    assert two.right == seven;
+    assert seven.left == five;
+    assert five.right == null;
+    assert five.color ==1;
+    assert two.color == 1;
+     assert seven.color == 0;
+    
+    //insert 8
+    Node eight = newNode(8);
+    insert_rbt (rbt,eight);
+    assert rbt.root == eleven;
+    assert eleven.left ==two;
+    assert two.right == seven;
+    assert seven.left == five;
+    assert seven.right == eight;
+    assert eight.left == null;
+    assert eight.right == null;
+    assert eight.color ==1;
+       
+    //insert 4
+      Node four = newNode(4);
+    insert_rbt(rbt,four);
+    assert rbt.root == seven;
+    assert seven.right ==eleven;
+    assert eleven.left == eight;
+    assert seven.left == two;
+    assert two.right == five;
+    assert five.left == four;
+    assert four.right == null;
+    assert four.left == null;
+ assert seven.color ==0;
+ assert two.color ==1;
+ assert five.color ==0;
+ assert four.color==1;
+}
+
+harness void deleteHarness() {
+    RBT rbt = new RBT();
+    //insert 11
+    Node eleven = newNode(11);
+    insert_rbt (rbt,eleven);
+    //insert 2
+    Node two = newNode(2);
+    insert_rbt (rbt,two);
+    //insert 14
+      Node fourteen = newNode(14);
+    insert_rbt (rbt,fourteen);
+        //insert 7
+    Node seven = newNode(7);
+    insert_rbt (rbt,seven);
+        //insert 15
+    Node fifteen = newNode(15);
+    insert_rbt (rbt,fifteen);
+     //insert 1
+    Node one = newNode(1);
+    insert_rbt (rbt,one);
+    //insert 5
+    Node five = newNode(5);
+    insert_rbt (rbt,five);
+    //insert 8
+    Node eight = newNode(8);
+    insert_rbt (rbt,eight);
+    //insert 4
+      Node four = newNode(4);
+    insert_rbt(rbt,four);
+
+    delete(rbt,seven);
+    assert rbt.root == eight;
+    assert rbt.root.left ==two;
+    assert rbt.root.right == eleven;
+    assert two.right==five;
+    assert two.left == one;
+    assert five.left ==four;
+    assert eleven.right ==fourteen;
+    assert fourteen.right ==fifteen;
+    assert eight.color==0;
+    assert two.color ==1;
+    assert fourteen.color ==0;
+    assert eleven.color==1;
+    assert fifteen.color ==1;
+    assert five.color ==0;
+    assert four.color ==1;
+    assert one.color ==0;
+    assert one.left ==null;
+    assert one.right ==null;
+    
+    
+delete(rbt,eleven);
+    assert rbt.root == eight;
+    assert rbt.root.left ==two;
+    assert rbt.root.right == fourteen;
+    assert two.right==five;
+    assert two.left == one;
+    assert five.left ==four;
+    assert fourteen.right ==fifteen;
+    assert eight.color==0;
+    assert two.color ==1;
+    assert fourteen.color ==1;
+    assert fifteen.color ==1;//?
+    assert five.color ==0;
+    assert four.color ==1;
+    assert one.color ==0;
+    assert one.left ==null;
+    assert one.right ==null;
+
+delete(rbt,one);
+    assert rbt.root == eight;
+    assert rbt.root.left ==two;
+    assert rbt.root.right == fourteen;
+    assert two.right==five;
+    assert five.left == four;
+    assert eight.color==0;
+    assert two.color ==1;
+    assert fourteen.color ==1;
+    assert fifteen.color ==1;//?
+    assert five.color ==0;
+    assert four.color ==1;
+
+
+
+}
