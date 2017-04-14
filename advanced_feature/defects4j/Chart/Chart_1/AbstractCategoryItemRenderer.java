@@ -110,7 +110,6 @@
  * 09-Feb-2010 : Fixed bug 2947660 (DG);
  *
  */
-
 package org.jfree.chart.renderer.category;
 
 import java.awt.AlphaComposite;
@@ -130,7 +129,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
@@ -173,8 +171,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.CategoryDatasetSelectionState;
 import org.jfree.data.category.SelectableCategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
-
-import sketch4j.generator.SketchRequest;
+import sketch4j.request.Sketch4J;
 
 /**
  * An abstract base class that you can use to implement a new
@@ -182,9 +179,7 @@ import sketch4j.generator.SketchRequest;
  * {@link CategoryItemRenderer} you are not required to extend this class,
  * but it makes the job easier.
  */
-public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
-        implements CategoryItemRenderer, Cloneable, PublicCloneable,
-        Serializable {
+public abstract class AbstractCategoryItemRenderer extends AbstractRenderer implements CategoryItemRenderer, Cloneable, PublicCloneable, Serializable {
 
     /** For serialization. */
     private static final long serialVersionUID = 1247553218442497391L;
@@ -252,8 +247,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         this.itemLabelGeneratorList = new ObjectList();
         this.toolTipGeneratorList = new ObjectList();
         this.urlGeneratorList = new ObjectList();
-        this.legendItemLabelGenerator
-                = new StandardCategorySeriesLabelGenerator();
+        this.legendItemLabelGenerator = new StandardCategorySeriesLabelGenerator();
         this.backgroundAnnotations = new ArrayList();
         this.foregroundAnnotations = new ArrayList();
     }
@@ -299,7 +293,6 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     }
 
     // ITEM LABEL GENERATOR
-
     /**
      * Returns the item label generator for a data item.  This implementation
      * returns the series item label generator if one is defined, otherwise
@@ -314,10 +307,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.2.0
      */
-    public CategoryItemLabelGenerator getItemLabelGenerator(int row,
-            int column, boolean selected) {
-        CategoryItemLabelGenerator generator = (CategoryItemLabelGenerator)
-                this.itemLabelGeneratorList.get(row);
+    public CategoryItemLabelGenerator getItemLabelGenerator(int row, int column, boolean selected) {
+        CategoryItemLabelGenerator generator = (CategoryItemLabelGenerator) this.itemLabelGeneratorList.get(row);
         if (generator == null) {
             generator = this.baseItemLabelGenerator;
         }
@@ -334,8 +325,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #setSeriesItemLabelGenerator(int, CategoryItemLabelGenerator)
      */
     public CategoryItemLabelGenerator getSeriesItemLabelGenerator(int series) {
-        return (CategoryItemLabelGenerator) this.itemLabelGeneratorList.get(
-                series);
+        return (CategoryItemLabelGenerator) this.itemLabelGeneratorList.get(series);
     }
 
     /**
@@ -347,8 +337,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getSeriesItemLabelGenerator(int)
      */
-    public void setSeriesItemLabelGenerator(int series,
-            CategoryItemLabelGenerator generator) {
+    public void setSeriesItemLabelGenerator(int series, CategoryItemLabelGenerator generator) {
         setSeriesItemLabelGenerator(series, generator, true);
     }
 
@@ -364,8 +353,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getSeriesItemLabelGenerator(int)
      */
-    public void setSeriesItemLabelGenerator(int series,
-            CategoryItemLabelGenerator generator, boolean notify) {
+    public void setSeriesItemLabelGenerator(int series, CategoryItemLabelGenerator generator, boolean notify) {
         this.itemLabelGeneratorList.set(series, generator);
         if (notify) {
             notifyListeners(new RendererChangeEvent(this));
@@ -391,8 +379,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getBaseItemLabelGenerator()
      */
-    public void setBaseItemLabelGenerator(
-            CategoryItemLabelGenerator generator) {
+    public void setBaseItemLabelGenerator(CategoryItemLabelGenerator generator) {
         setBaseItemLabelGenerator(generator, true);
     }
 
@@ -407,8 +394,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getBaseItemLabelGenerator()
      */
-    public void setBaseItemLabelGenerator(
-            CategoryItemLabelGenerator generator, boolean notify) {
+    public void setBaseItemLabelGenerator(CategoryItemLabelGenerator generator, boolean notify) {
         this.baseItemLabelGenerator = generator;
         if (notify) {
             notifyListeners(new RendererChangeEvent(this));
@@ -416,7 +402,6 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     }
 
     // TOOL TIP GENERATOR
-
     /**
      * Returns the tool tip generator that should be used for the specified
      * item.  You can override this method if you want to return a different
@@ -430,9 +415,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.2.0
      */
-    public CategoryToolTipGenerator getToolTipGenerator(int row, int column,
-            boolean selected) {
-
+    public CategoryToolTipGenerator getToolTipGenerator(int row, int column, boolean selected) {
         CategoryToolTipGenerator result = null;
         result = getSeriesToolTipGenerator(row);
         if (result == null) {
@@ -464,8 +447,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getSeriesToolTipGenerator(int)
      */
-    public void setSeriesToolTipGenerator(int series,
-            CategoryToolTipGenerator generator) {
+    public void setSeriesToolTipGenerator(int series, CategoryToolTipGenerator generator) {
         setSeriesToolTipGenerator(series, generator, true);
     }
 
@@ -482,8 +464,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getSeriesToolTipGenerator(int)
      */
-    public void setSeriesToolTipGenerator(int series,
-            CategoryToolTipGenerator generator, boolean notify) {
+    public void setSeriesToolTipGenerator(int series, CategoryToolTipGenerator generator, boolean notify) {
         this.toolTipGeneratorList.set(series, generator);
         if (notify) {
             notifyListeners(new RendererChangeEvent(this));
@@ -524,8 +505,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getBaseToolTipGenerator()
      */
-    public void setBaseToolTipGenerator(CategoryToolTipGenerator generator,
-            boolean notify) {
+    public void setBaseToolTipGenerator(CategoryToolTipGenerator generator, boolean notify) {
         this.baseToolTipGenerator = generator;
         if (notify) {
             notifyListeners(new RendererChangeEvent(this));
@@ -533,7 +513,6 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     }
 
     // URL GENERATOR
-
     /**
      * Returns the URL generator for a data item.
      *
@@ -545,10 +524,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.2.0
      */
-    public CategoryURLGenerator getURLGenerator(int row, int column, boolean
-            selected) {
-        CategoryURLGenerator generator
-                = (CategoryURLGenerator) this.urlGeneratorList.get(row);
+    public CategoryURLGenerator getURLGenerator(int row, int column, boolean selected) {
+        CategoryURLGenerator generator = (CategoryURLGenerator) this.urlGeneratorList.get(row);
         if (generator == null) {
             generator = this.baseURLGenerator;
         }
@@ -577,8 +554,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getSeriesURLGenerator(int)
      */
-    public void setSeriesURLGenerator(int series,
-            CategoryURLGenerator generator) {
+    public void setSeriesURLGenerator(int series, CategoryURLGenerator generator) {
         setSeriesURLGenerator(series, generator, true);
     }
 
@@ -594,8 +570,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getSeriesURLGenerator(int)
      */
-    public void setSeriesURLGenerator(int series,
-            CategoryURLGenerator generator, boolean notify) {
+    public void setSeriesURLGenerator(int series, CategoryURLGenerator generator, boolean notify) {
         this.urlGeneratorList.set(series, generator);
         if (notify) {
             notifyListeners(new RendererChangeEvent(this));
@@ -634,8 +609,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.2.0
      */
-    public void setBaseURLGenerator(CategoryURLGenerator generator,
-            boolean notify) {
+    public void setBaseURLGenerator(CategoryURLGenerator generator, boolean notify) {
         this.baseURLGenerator = generator;
         if (notify) {
             notifyListeners(new RendererChangeEvent(this));
@@ -643,7 +617,6 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     }
 
     // ANNOTATIONS
-
     /**
      * Adds an annotation and sends a {@link RendererChangeEvent} to all
      * registered listeners.  The annotation is added to the foreground
@@ -673,16 +646,15 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         if (layer.equals(Layer.FOREGROUND)) {
             this.foregroundAnnotations.add(annotation);
             notifyListeners(new RendererChangeEvent(this));
-        }
-        else if (layer.equals(Layer.BACKGROUND)) {
+        } else if (layer.equals(Layer.BACKGROUND)) {
             this.backgroundAnnotations.add(annotation);
             notifyListeners(new RendererChangeEvent(this));
-        }
-        else {
+        } else {
             // should never get here
             throw new RuntimeException("Unknown layer.");
         }
     }
+
     /**
      * Removes the specified annotation and sends a {@link RendererChangeEvent}
      * to all registered listeners.
@@ -733,8 +705,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getLegendItemLabelGenerator()
      */
-    public void setLegendItemLabelGenerator(
-            CategorySeriesLabelGenerator generator) {
+    public void setLegendItemLabelGenerator(CategorySeriesLabelGenerator generator) {
         if (generator == null) {
             throw new IllegalArgumentException("Null 'generator' argument.");
         }
@@ -761,8 +732,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #setLegendItemToolTipGenerator(CategorySeriesLabelGenerator)
      */
-    public void setLegendItemToolTipGenerator(
-            CategorySeriesLabelGenerator generator) {
+    public void setLegendItemToolTipGenerator(CategorySeriesLabelGenerator generator) {
         this.legendItemToolTipGenerator = generator;
         fireChangeEvent();
     }
@@ -786,8 +756,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @see #getLegendItemURLGenerator()
      */
-    public void setLegendItemURLGenerator(
-            CategorySeriesLabelGenerator generator) {
+    public void setLegendItemURLGenerator(CategorySeriesLabelGenerator generator) {
         this.legendItemURLGenerator = generator;
         fireChangeEvent();
     }
@@ -835,8 +804,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             }
         }
         int[] visibleSeries = new int[visibleSeriesCount];
-        System.arraycopy(visibleSeriesTemp, 0, visibleSeries, 0,
-                visibleSeriesCount);
+        System.arraycopy(visibleSeriesTemp, 0, visibleSeries, 0, visibleSeriesCount);
         state.setVisibleSeriesArray(visibleSeries);
         return state;
     }
@@ -855,39 +823,31 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return The renderer state.
      */
-    public CategoryItemRendererState initialise(Graphics2D g2,
-            Rectangle2D dataArea, CategoryPlot plot, CategoryDataset dataset,
-            PlotRenderingInfo info) {
-
+    public CategoryItemRendererState initialise(Graphics2D g2, Rectangle2D dataArea, CategoryPlot plot, CategoryDataset dataset, PlotRenderingInfo info) {
         setPlot(plot);
         if (dataset != null) {
             this.rowCount = dataset.getRowCount();
             this.columnCount = dataset.getColumnCount();
-        }
-        else {
+        } else {
             this.rowCount = 0;
             this.columnCount = 0;
         }
         CategoryItemRendererState state = createState(info);
-
         // determine if there is any selection state for the dataset
         CategoryDatasetSelectionState selectionState = null;
         if (dataset instanceof SelectableCategoryDataset) {
             SelectableCategoryDataset scd = (SelectableCategoryDataset) dataset;
             selectionState = scd.getSelectionState();
         }
-        // if the selection state is still null, go to the selection source
         // and ask if it has state...
         if (selectionState == null && info != null) {
             ChartRenderingInfo cri = info.getOwner();
             if (cri != null) {
                 RenderingSource rs = cri.getRenderingSource();
-                selectionState = (CategoryDatasetSelectionState)
-                        rs.getSelectionState(dataset);
+                selectionState = (CategoryDatasetSelectionState) rs.getSelectionState(dataset);
             }
         }
         state.setSelectionState(selectionState);
-
         return state;
     }
 
@@ -916,8 +876,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.0.13
      */
-    protected Range findRangeBounds(CategoryDataset dataset,
-            boolean includeInterval) {
+    protected Range findRangeBounds(CategoryDataset dataset, boolean includeInterval) {
         if (dataset == null) {
             return null;
         }
@@ -929,10 +888,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
                     visibleSeriesKeys.add(dataset.getRowKey(s));
                 }
             }
-            return DatasetUtilities.findRangeBounds(dataset,
-                    visibleSeriesKeys, includeInterval);
-        }
-        else {
+            return DatasetUtilities.findRangeBounds(dataset, visibleSeriesKeys, includeInterval);
+        } else {
             return DatasetUtilities.findRangeBounds(dataset, includeInterval);
         }
     }
@@ -951,11 +908,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.0.11
      */
-    public double getItemMiddle(Comparable rowKey, Comparable columnKey,
-            CategoryDataset dataset, CategoryAxis axis, Rectangle2D area,
-            RectangleEdge edge) {
-        return axis.getCategoryMiddle(columnKey, dataset.getColumnKeys(), area,
-                edge);
+    public double getItemMiddle(Comparable rowKey, Comparable columnKey, CategoryDataset dataset, CategoryAxis axis, Rectangle2D area, RectangleEdge edge) {
+        return axis.getCategoryMiddle(columnKey, dataset.getColumnKeys(), area, edge);
     }
 
     /**
@@ -967,12 +921,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @param plot  the plot.
      * @param dataArea  the data area.
      */
-    public void drawBackground(Graphics2D g2,
-                               CategoryPlot plot,
-                               Rectangle2D dataArea) {
-
+    public void drawBackground(Graphics2D g2, CategoryPlot plot, Rectangle2D dataArea) {
         plot.drawBackground(g2, dataArea);
-
     }
 
     /**
@@ -984,12 +934,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @param plot  the plot.
      * @param dataArea  the data area.
      */
-    public void drawOutline(Graphics2D g2,
-                            CategoryPlot plot,
-                            Rectangle2D dataArea) {
-
+    public void drawOutline(Graphics2D g2, CategoryPlot plot, Rectangle2D dataArea) {
         plot.drawOutline(g2, dataArea);
-
     }
 
     /**
@@ -1012,9 +958,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.2.0
      */
-    public void drawDomainLine(Graphics2D g2, CategoryPlot plot,
-            Rectangle2D dataArea, double value, Paint paint, Stroke stroke) {
-
+    public void drawDomainLine(Graphics2D g2, CategoryPlot plot, Rectangle2D dataArea, double value, Paint paint, Stroke stroke) {
         if (paint == null) {
             throw new IllegalArgumentException("Null 'paint' argument.");
         }
@@ -1023,20 +967,14 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         }
         Line2D line = null;
         PlotOrientation orientation = plot.getOrientation();
-
         if (orientation == PlotOrientation.HORIZONTAL) {
-            line = new Line2D.Double(dataArea.getMinX(), value,
-                    dataArea.getMaxX(), value);
+            line = new Line2D.Double(dataArea.getMinX(), value, dataArea.getMaxX(), value);
+        } else if (orientation == PlotOrientation.VERTICAL) {
+            line = new Line2D.Double(value, dataArea.getMinY(), value, dataArea.getMaxY());
         }
-        else if (orientation == PlotOrientation.VERTICAL) {
-            line = new Line2D.Double(value, dataArea.getMinY(), value,
-                    dataArea.getMaxY());
-        }
-
         g2.setPaint(paint);
         g2.setStroke(stroke);
         g2.draw(line);
-
     }
 
     /**
@@ -1055,30 +993,22 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.0.13
      */
-    public void drawRangeLine(Graphics2D g2, CategoryPlot plot, ValueAxis axis,
-            Rectangle2D dataArea, double value, Paint paint, Stroke stroke) {
-
+    public void drawRangeLine(Graphics2D g2, CategoryPlot plot, ValueAxis axis, Rectangle2D dataArea, double value, Paint paint, Stroke stroke) {
         Range range = axis.getRange();
         if (!range.contains(value)) {
             return;
         }
-
         PlotOrientation orientation = plot.getOrientation();
         Line2D line = null;
         double v = axis.valueToJava2D(value, dataArea, plot.getRangeAxisEdge());
         if (orientation == PlotOrientation.HORIZONTAL) {
-            line = new Line2D.Double(v, dataArea.getMinY(), v,
-                    dataArea.getMaxY());
+            line = new Line2D.Double(v, dataArea.getMinY(), v, dataArea.getMaxY());
+        } else if (orientation == PlotOrientation.VERTICAL) {
+            line = new Line2D.Double(dataArea.getMinX(), v, dataArea.getMaxX(), v);
         }
-        else if (orientation == PlotOrientation.VERTICAL) {
-            line = new Line2D.Double(dataArea.getMinX(), v,
-                    dataArea.getMaxX(), v);
-        }
-
         g2.setPaint(paint);
         g2.setStroke(stroke);
         g2.draw(line);
-
     }
 
     /**
@@ -1093,76 +1023,50 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #drawRangeMarker(Graphics2D, CategoryPlot, ValueAxis, Marker,
      *     Rectangle2D)
      */
-    public void drawDomainMarker(Graphics2D g2,
-                                 CategoryPlot plot,
-                                 CategoryAxis axis,
-                                 CategoryMarker marker,
-                                 Rectangle2D dataArea) {
-
+    public void drawDomainMarker(Graphics2D g2, CategoryPlot plot, CategoryAxis axis, CategoryMarker marker, Rectangle2D dataArea) {
         Comparable category = marker.getKey();
         CategoryDataset dataset = plot.getDataset(plot.getIndexOf(this));
         int columnIndex = dataset.getColumnIndex(category);
         if (columnIndex < 0) {
             return;
         }
-
         final Composite savedComposite = g2.getComposite();
-        g2.setComposite(AlphaComposite.getInstance(
-                AlphaComposite.SRC_OVER, marker.getAlpha()));
-
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, marker.getAlpha()));
         PlotOrientation orientation = plot.getOrientation();
         Rectangle2D bounds = null;
         if (marker.getDrawAsLine()) {
-            double v = axis.getCategoryMiddle(columnIndex,
-                    dataset.getColumnCount(), dataArea,
-                    plot.getDomainAxisEdge());
+            double v = axis.getCategoryMiddle(columnIndex, dataset.getColumnCount(), dataArea, plot.getDomainAxisEdge());
             Line2D line = null;
             if (orientation == PlotOrientation.HORIZONTAL) {
-                line = new Line2D.Double(dataArea.getMinX(), v,
-                        dataArea.getMaxX(), v);
-            }
-            else if (orientation == PlotOrientation.VERTICAL) {
-                line = new Line2D.Double(v, dataArea.getMinY(), v,
-                        dataArea.getMaxY());
+                line = new Line2D.Double(dataArea.getMinX(), v, dataArea.getMaxX(), v);
+            } else if (orientation == PlotOrientation.VERTICAL) {
+                line = new Line2D.Double(v, dataArea.getMinY(), v, dataArea.getMaxY());
             }
             g2.setPaint(marker.getPaint());
             g2.setStroke(marker.getStroke());
             g2.draw(line);
             bounds = line.getBounds2D();
-        }
-        else {
-            double v0 = axis.getCategoryStart(columnIndex,
-                    dataset.getColumnCount(), dataArea,
-                    plot.getDomainAxisEdge());
-            double v1 = axis.getCategoryEnd(columnIndex,
-                    dataset.getColumnCount(), dataArea,
-                    plot.getDomainAxisEdge());
+        } else {
+            double v0 = axis.getCategoryStart(columnIndex, dataset.getColumnCount(), dataArea, plot.getDomainAxisEdge());
+            double v1 = axis.getCategoryEnd(columnIndex, dataset.getColumnCount(), dataArea, plot.getDomainAxisEdge());
             Rectangle2D area = null;
             if (orientation == PlotOrientation.HORIZONTAL) {
-                area = new Rectangle2D.Double(dataArea.getMinX(), v0,
-                        dataArea.getWidth(), (v1 - v0));
-            }
-            else if (orientation == PlotOrientation.VERTICAL) {
-                area = new Rectangle2D.Double(v0, dataArea.getMinY(),
-                        (v1 - v0), dataArea.getHeight());
+                area = new Rectangle2D.Double(dataArea.getMinX(), v0, dataArea.getWidth(), (v1 - v0));
+            } else if (orientation == PlotOrientation.VERTICAL) {
+                area = new Rectangle2D.Double(v0, dataArea.getMinY(), (v1 - v0), dataArea.getHeight());
             }
             g2.setPaint(marker.getPaint());
             g2.fill(area);
             bounds = area;
         }
-
         String label = marker.getLabel();
         RectangleAnchor anchor = marker.getLabelAnchor();
         if (label != null) {
             Font labelFont = marker.getLabelFont();
             g2.setFont(labelFont);
             g2.setPaint(marker.getLabelPaint());
-            Point2D coordinates = calculateDomainMarkerTextAnchorPoint(
-                    g2, orientation, dataArea, bounds, marker.getLabelOffset(),
-                    marker.getLabelOffsetType(), anchor);
-            TextUtilities.drawAlignedString(label, g2,
-                    (float) coordinates.getX(), (float) coordinates.getY(),
-                    marker.getLabelTextAnchor());
+            Point2D coordinates = calculateDomainMarkerTextAnchorPoint(g2, orientation, dataArea, bounds, marker.getLabelOffset(), marker.getLabelOffsetType(), anchor);
+            TextUtilities.drawAlignedString(label, g2, (float) coordinates.getX(), (float) coordinates.getY(), marker.getLabelTextAnchor());
         }
         g2.setComposite(savedComposite);
     }
@@ -1179,59 +1083,38 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #drawDomainMarker(Graphics2D, CategoryPlot, CategoryAxis,
      *     CategoryMarker, Rectangle2D)
      */
-    public void drawRangeMarker(Graphics2D g2,
-                                CategoryPlot plot,
-                                ValueAxis axis,
-                                Marker marker,
-                                Rectangle2D dataArea) {
-
+    public void drawRangeMarker(Graphics2D g2, CategoryPlot plot, ValueAxis axis, Marker marker, Rectangle2D dataArea) {
         if (marker instanceof ValueMarker) {
             ValueMarker vm = (ValueMarker) marker;
             double value = vm.getValue();
             Range range = axis.getRange();
-
             if (!range.contains(value)) {
                 return;
             }
-
             final Composite savedComposite = g2.getComposite();
-            g2.setComposite(AlphaComposite.getInstance(
-                    AlphaComposite.SRC_OVER, marker.getAlpha()));
-
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, marker.getAlpha()));
             PlotOrientation orientation = plot.getOrientation();
-            double v = axis.valueToJava2D(value, dataArea,
-                    plot.getRangeAxisEdge());
+            double v = axis.valueToJava2D(value, dataArea, plot.getRangeAxisEdge());
             Line2D line = null;
             if (orientation == PlotOrientation.HORIZONTAL) {
-                line = new Line2D.Double(v, dataArea.getMinY(), v,
-                        dataArea.getMaxY());
+                line = new Line2D.Double(v, dataArea.getMinY(), v, dataArea.getMaxY());
+            } else if (orientation == PlotOrientation.VERTICAL) {
+                line = new Line2D.Double(dataArea.getMinX(), v, dataArea.getMaxX(), v);
             }
-            else if (orientation == PlotOrientation.VERTICAL) {
-                line = new Line2D.Double(dataArea.getMinX(), v,
-                        dataArea.getMaxX(), v);
-            }
-
             g2.setPaint(marker.getPaint());
             g2.setStroke(marker.getStroke());
             g2.draw(line);
-
             String label = marker.getLabel();
             RectangleAnchor anchor = marker.getLabelAnchor();
             if (label != null) {
                 Font labelFont = marker.getLabelFont();
                 g2.setFont(labelFont);
                 g2.setPaint(marker.getLabelPaint());
-                Point2D coordinates = calculateRangeMarkerTextAnchorPoint(
-                        g2, orientation, dataArea, line.getBounds2D(),
-                        marker.getLabelOffset(), LengthAdjustmentType.EXPAND,
-                        anchor);
-                TextUtilities.drawAlignedString(label, g2,
-                        (float) coordinates.getX(), (float) coordinates.getY(),
-                        marker.getLabelTextAnchor());
+                Point2D coordinates = calculateRangeMarkerTextAnchorPoint(g2, orientation, dataArea, line.getBounds2D(), marker.getLabelOffset(), LengthAdjustmentType.EXPAND, anchor);
+                TextUtilities.drawAlignedString(label, g2, (float) coordinates.getX(), (float) coordinates.getY(), marker.getLabelTextAnchor());
             }
             g2.setComposite(savedComposite);
-        }
-        else if (marker instanceof IntervalMarker) {
+        } else if (marker instanceof IntervalMarker) {
             IntervalMarker im = (IntervalMarker) marker;
             double start = im.getStartValue();
             double end = im.getEndValue();
@@ -1239,35 +1122,24 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             if (!(range.intersects(start, end))) {
                 return;
             }
-
             final Composite savedComposite = g2.getComposite();
-            g2.setComposite(AlphaComposite.getInstance(
-                    AlphaComposite.SRC_OVER, marker.getAlpha()));
-
-            double start2d = axis.valueToJava2D(start, dataArea,
-                    plot.getRangeAxisEdge());
-            double end2d = axis.valueToJava2D(end, dataArea,
-                    plot.getRangeAxisEdge());
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, marker.getAlpha()));
+            double start2d = axis.valueToJava2D(start, dataArea, plot.getRangeAxisEdge());
+            double end2d = axis.valueToJava2D(end, dataArea, plot.getRangeAxisEdge());
             double low = Math.min(start2d, end2d);
             double high = Math.max(start2d, end2d);
-
             PlotOrientation orientation = plot.getOrientation();
             Rectangle2D rect = null;
             if (orientation == PlotOrientation.HORIZONTAL) {
                 // clip left and right bounds to data area
                 low = Math.max(low, dataArea.getMinX());
                 high = Math.min(high, dataArea.getMaxX());
-                rect = new Rectangle2D.Double(low,
-                        dataArea.getMinY(), high - low,
-                        dataArea.getHeight());
-            }
-            else if (orientation == PlotOrientation.VERTICAL) {
+                rect = new Rectangle2D.Double(low, dataArea.getMinY(), high - low, dataArea.getHeight());
+            } else if (orientation == PlotOrientation.VERTICAL) {
                 // clip top and bottom bounds to data area
                 low = Math.max(low, dataArea.getMinY());
                 high = Math.min(high, dataArea.getMaxY());
-                rect = new Rectangle2D.Double(dataArea.getMinX(),
-                        low, dataArea.getWidth(),
-                        high - low);
+                rect = new Rectangle2D.Double(dataArea.getMinX(), low, dataArea.getWidth(), high - low);
             }
             Paint p = marker.getPaint();
             if (p instanceof GradientPaint) {
@@ -1277,12 +1149,10 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
                     gp = t.transform(gp, rect);
                 }
                 g2.setPaint(gp);
-            }
-            else {
+            } else {
                 g2.setPaint(p);
             }
             g2.fill(rect);
-
             // now draw the outlines, if visible...
             if (im.getOutlinePaint() != null && im.getOutlineStroke() != null) {
                 if (orientation == PlotOrientation.VERTICAL) {
@@ -1299,8 +1169,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
                         line.setLine(x0, end2d, x1, end2d);
                         g2.draw(line);
                     }
-                }
-                else { // PlotOrientation.HORIZONTAL
+                } else {
+                    // PlotOrientation.HORIZONTAL
                     Line2D line = new Line2D.Double();
                     double y0 = dataArea.getMinY();
                     double y1 = dataArea.getMaxY();
@@ -1316,20 +1186,14 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
                     }
                 }
             }
-
             String label = marker.getLabel();
             RectangleAnchor anchor = marker.getLabelAnchor();
             if (label != null) {
                 Font labelFont = marker.getLabelFont();
                 g2.setFont(labelFont);
                 g2.setPaint(marker.getLabelPaint());
-                Point2D coordinates = calculateRangeMarkerTextAnchorPoint(
-                        g2, orientation, dataArea, rect,
-                        marker.getLabelOffset(), marker.getLabelOffsetType(),
-                        anchor);
-                TextUtilities.drawAlignedString(label, g2,
-                        (float) coordinates.getX(), (float) coordinates.getY(),
-                        marker.getLabelTextAnchor());
+                Point2D coordinates = calculateRangeMarkerTextAnchorPoint(g2, orientation, dataArea, rect, marker.getLabelOffset(), marker.getLabelOffsetType(), anchor);
+                TextUtilities.drawAlignedString(label, g2, (float) coordinates.getX(), (float) coordinates.getY(), marker.getLabelTextAnchor());
             }
             g2.setComposite(savedComposite);
         }
@@ -1349,25 +1213,14 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return The coordinates for drawing the marker label.
      */
-    protected Point2D calculateDomainMarkerTextAnchorPoint(Graphics2D g2,
-                                      PlotOrientation orientation,
-                                      Rectangle2D dataArea,
-                                      Rectangle2D markerArea,
-                                      RectangleInsets markerOffset,
-                                      LengthAdjustmentType labelOffsetType,
-                                      RectangleAnchor anchor) {
-
+    protected Point2D calculateDomainMarkerTextAnchorPoint(Graphics2D g2, PlotOrientation orientation, Rectangle2D dataArea, Rectangle2D markerArea, RectangleInsets markerOffset, LengthAdjustmentType labelOffsetType, RectangleAnchor anchor) {
         Rectangle2D anchorRect = null;
         if (orientation == PlotOrientation.HORIZONTAL) {
-            anchorRect = markerOffset.createAdjustedRectangle(markerArea,
-                    LengthAdjustmentType.CONTRACT, labelOffsetType);
-        }
-        else if (orientation == PlotOrientation.VERTICAL) {
-            anchorRect = markerOffset.createAdjustedRectangle(markerArea,
-                    labelOffsetType, LengthAdjustmentType.CONTRACT);
+            anchorRect = markerOffset.createAdjustedRectangle(markerArea, LengthAdjustmentType.CONTRACT, labelOffsetType);
+        } else if (orientation == PlotOrientation.VERTICAL) {
+            anchorRect = markerOffset.createAdjustedRectangle(markerArea, labelOffsetType, LengthAdjustmentType.CONTRACT);
         }
         return RectangleAnchor.coordinates(anchorRect, anchor);
-
     }
 
     /**
@@ -1383,25 +1236,14 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return The coordinates for drawing the marker label.
      */
-    protected Point2D calculateRangeMarkerTextAnchorPoint(Graphics2D g2,
-                                      PlotOrientation orientation,
-                                      Rectangle2D dataArea,
-                                      Rectangle2D markerArea,
-                                      RectangleInsets markerOffset,
-                                      LengthAdjustmentType labelOffsetType,
-                                      RectangleAnchor anchor) {
-
+    protected Point2D calculateRangeMarkerTextAnchorPoint(Graphics2D g2, PlotOrientation orientation, Rectangle2D dataArea, Rectangle2D markerArea, RectangleInsets markerOffset, LengthAdjustmentType labelOffsetType, RectangleAnchor anchor) {
         Rectangle2D anchorRect = null;
         if (orientation == PlotOrientation.HORIZONTAL) {
-            anchorRect = markerOffset.createAdjustedRectangle(markerArea,
-                    labelOffsetType, LengthAdjustmentType.CONTRACT);
-        }
-        else if (orientation == PlotOrientation.VERTICAL) {
-            anchorRect = markerOffset.createAdjustedRectangle(markerArea,
-                    LengthAdjustmentType.CONTRACT, labelOffsetType);
+            anchorRect = markerOffset.createAdjustedRectangle(markerArea, labelOffsetType, LengthAdjustmentType.CONTRACT);
+        } else if (orientation == PlotOrientation.VERTICAL) {
+            anchorRect = markerOffset.createAdjustedRectangle(markerArea, LengthAdjustmentType.CONTRACT, labelOffsetType);
         }
         return RectangleAnchor.coordinates(anchorRect, anchor);
-
     }
 
     /**
@@ -1417,38 +1259,30 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #getLegendItems()
      */
     public LegendItem getLegendItem(int datasetIndex, int series) {
-
         CategoryPlot p = getPlot();
         if (p == null) {
             return null;
         }
-
         // check that a legend item needs to be displayed...
         if (!isSeriesVisible(series) || !isSeriesVisibleInLegend(series)) {
             return null;
         }
-
         CategoryDataset dataset = p.getDataset(datasetIndex);
-        String label = this.legendItemLabelGenerator.generateLabel(dataset,
-                series);
+        String label = this.legendItemLabelGenerator.generateLabel(dataset, series);
         String description = label;
         String toolTipText = null;
         if (this.legendItemToolTipGenerator != null) {
-            toolTipText = this.legendItemToolTipGenerator.generateLabel(
-                    dataset, series);
+            toolTipText = this.legendItemToolTipGenerator.generateLabel(dataset, series);
         }
         String urlText = null;
         if (this.legendItemURLGenerator != null) {
-            urlText = this.legendItemURLGenerator.generateLabel(dataset,
-                    series);
+            urlText = this.legendItemURLGenerator.generateLabel(dataset, series);
         }
         Shape shape = lookupLegendShape(series);
         Paint paint = lookupSeriesPaint(series);
         Paint outlinePaint = lookupSeriesOutlinePaint(series);
         Stroke outlineStroke = lookupSeriesOutlineStroke(series);
-
-        LegendItem item = new LegendItem(label, description, toolTipText,
-                urlText, shape, paint, outlineStroke, outlinePaint);
+        LegendItem item = new LegendItem(label, description, toolTipText, urlText, shape, paint, outlineStroke, outlinePaint);
         item.setLabelFont(lookupLegendTextFont(series));
         Paint labelPaint = lookupLegendTextPaint(series);
         if (labelPaint != null) {
@@ -1469,7 +1303,6 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @return <code>true</code> or <code>false</code>.
      */
     public boolean equals(Object obj) {
-
         if (obj == this) {
             return true;
         }
@@ -1477,49 +1310,37 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             return false;
         }
         AbstractCategoryItemRenderer that = (AbstractCategoryItemRenderer) obj;
-
-        if (!ObjectUtilities.equal(this.itemLabelGeneratorList,
-                that.itemLabelGeneratorList)) {
+        if (!ObjectUtilities.equal(this.itemLabelGeneratorList, that.itemLabelGeneratorList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseItemLabelGenerator,
-                that.baseItemLabelGenerator)) {
+        if (!ObjectUtilities.equal(this.baseItemLabelGenerator, that.baseItemLabelGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.toolTipGeneratorList,
-                that.toolTipGeneratorList)) {
+        if (!ObjectUtilities.equal(this.toolTipGeneratorList, that.toolTipGeneratorList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseToolTipGenerator,
-                that.baseToolTipGenerator)) {
+        if (!ObjectUtilities.equal(this.baseToolTipGenerator, that.baseToolTipGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.urlGeneratorList,
-                that.urlGeneratorList)) {
+        if (!ObjectUtilities.equal(this.urlGeneratorList, that.urlGeneratorList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseURLGenerator,
-                that.baseURLGenerator)) {
+        if (!ObjectUtilities.equal(this.baseURLGenerator, that.baseURLGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemLabelGenerator,
-                that.legendItemLabelGenerator)) {
+        if (!ObjectUtilities.equal(this.legendItemLabelGenerator, that.legendItemLabelGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemToolTipGenerator,
-                that.legendItemToolTipGenerator)) {
+        if (!ObjectUtilities.equal(this.legendItemToolTipGenerator, that.legendItemToolTipGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemURLGenerator,
-                that.legendItemURLGenerator)) {
+        if (!ObjectUtilities.equal(this.legendItemURLGenerator, that.legendItemURLGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.backgroundAnnotations,
-                that.backgroundAnnotations)) {
+        if (!ObjectUtilities.equal(this.backgroundAnnotations, that.backgroundAnnotations)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.foregroundAnnotations,
-                that.foregroundAnnotations)) {
+        if (!ObjectUtilities.equal(this.foregroundAnnotations, that.foregroundAnnotations)) {
             return false;
         }
         return super.equals(obj);
@@ -1567,24 +1388,16 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.0.11
      */
-    protected void updateCrosshairValues(CategoryCrosshairState crosshairState,
-            Comparable rowKey, Comparable columnKey, double value,
-            int datasetIndex,
-            double transX, double transY, PlotOrientation orientation) {
-
+    protected void updateCrosshairValues(CategoryCrosshairState crosshairState, Comparable rowKey, Comparable columnKey, double value, int datasetIndex, double transX, double transY, PlotOrientation orientation) {
         if (orientation == null) {
             throw new IllegalArgumentException("Null 'orientation' argument.");
         }
-
         if (crosshairState != null) {
             if (this.plot.isRangeCrosshairLockedOnData()) {
                 // both axes
-                crosshairState.updateCrosshairPoint(rowKey, columnKey, value,
-                        datasetIndex, transX, transY, orientation);
-            }
-            else {
-                crosshairState.updateCrosshairX(rowKey, columnKey,
-                        datasetIndex, transX, orientation);
+                crosshairState.updateCrosshairPoint(rowKey, columnKey, value, datasetIndex, transX, transY, orientation);
+            } else {
+                crosshairState.updateCrosshairX(rowKey, columnKey, datasetIndex, transX, orientation);
             }
         }
     }
@@ -1605,12 +1418,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.2.0
      */
-    protected void drawItemLabel(Graphics2D g2, PlotOrientation orientation,
-            CategoryDataset dataset, int row, int column, boolean selected,
-            double x, double y, boolean negative) {
-
-        CategoryItemLabelGenerator generator = getItemLabelGenerator(row,
-                column, selected);
+    protected void drawItemLabel(Graphics2D g2, PlotOrientation orientation, CategoryDataset dataset, int row, int column, boolean selected, double x, double y, boolean negative) {
+        CategoryItemLabelGenerator generator = getItemLabelGenerator(row, column, selected);
         if (generator != null) {
             Font labelFont = getItemLabelFont(row, column, selected);
             Paint paint = getItemLabelPaint(row, column, selected);
@@ -1620,18 +1429,12 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             ItemLabelPosition position = null;
             if (!negative) {
                 position = getPositiveItemLabelPosition(row, column, selected);
-            }
-            else {
+            } else {
                 position = getNegativeItemLabelPosition(row, column, selected);
             }
-            Point2D anchorPoint = calculateLabelAnchorPoint(
-                    position.getItemLabelAnchor(), x, y, orientation);
-            TextUtilities.drawRotatedString(label, g2,
-                    (float) anchorPoint.getX(), (float) anchorPoint.getY(),
-                    position.getTextAnchor(),
-                    position.getAngle(), position.getRotationAnchor());
+            Point2D anchorPoint = calculateLabelAnchorPoint(position.getItemLabelAnchor(), x, y, orientation);
+            TextUtilities.drawRotatedString(label, g2, (float) anchorPoint.getX(), (float) anchorPoint.getY(), position.getTextAnchor(), position.getAngle(), position.getRotationAnchor());
         }
-
     }
 
     /**
@@ -1646,27 +1449,20 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.2.0
      */
-    public void drawAnnotations(Graphics2D g2, Rectangle2D dataArea,
-            CategoryAxis domainAxis, ValueAxis rangeAxis, Layer layer,
-            PlotRenderingInfo info) {
-
+    public void drawAnnotations(Graphics2D g2, Rectangle2D dataArea, CategoryAxis domainAxis, ValueAxis rangeAxis, Layer layer, PlotRenderingInfo info) {
         Iterator iterator = null;
         if (layer.equals(Layer.FOREGROUND)) {
             iterator = this.foregroundAnnotations.iterator();
-        }
-        else if (layer.equals(Layer.BACKGROUND)) {
+        } else if (layer.equals(Layer.BACKGROUND)) {
             iterator = this.backgroundAnnotations.iterator();
-        }
-        else {
+        } else {
             // should not get here
             throw new RuntimeException("Unknown layer.");
         }
         while (iterator.hasNext()) {
             CategoryAnnotation annotation = (CategoryAnnotation) iterator.next();
-            annotation.draw(g2, this.plot, dataArea, domainAxis, rangeAxis,
-                    0, info);
+            annotation.draw(g2, this.plot, dataArea, domainAxis, rangeAxis, 0, info);
         }
-
     }
 
     /**
@@ -1680,73 +1476,48 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *         an item label generator).
      */
     public Object clone() throws CloneNotSupportedException {
-
-        AbstractCategoryItemRenderer clone
-                = (AbstractCategoryItemRenderer) super.clone();
-
-
+        AbstractCategoryItemRenderer clone = (AbstractCategoryItemRenderer) super.clone();
         if (this.itemLabelGeneratorList != null) {
-            clone.itemLabelGeneratorList
-                    = (ObjectList) this.itemLabelGeneratorList.clone();
+            clone.itemLabelGeneratorList = (ObjectList) this.itemLabelGeneratorList.clone();
         }
-
         if (this.baseItemLabelGenerator != null) {
             if (this.baseItemLabelGenerator instanceof PublicCloneable) {
-                PublicCloneable pc
-                        = (PublicCloneable) this.baseItemLabelGenerator;
-                clone.baseItemLabelGenerator
-                        = (CategoryItemLabelGenerator) pc.clone();
-            }
-            else {
-                throw new CloneNotSupportedException(
-                        "ItemLabelGenerator not cloneable.");
+                PublicCloneable pc = (PublicCloneable) this.baseItemLabelGenerator;
+                clone.baseItemLabelGenerator = (CategoryItemLabelGenerator) pc.clone();
+            } else {
+                throw new CloneNotSupportedException("ItemLabelGenerator not cloneable.");
             }
         }
-
         if (this.toolTipGeneratorList != null) {
-            clone.toolTipGeneratorList
-                    = (ObjectList) this.toolTipGeneratorList.clone();
+            clone.toolTipGeneratorList = (ObjectList) this.toolTipGeneratorList.clone();
         }
-
         if (this.baseToolTipGenerator != null) {
             if (this.baseToolTipGenerator instanceof PublicCloneable) {
-                PublicCloneable pc
-                        = (PublicCloneable) this.baseToolTipGenerator;
-                clone.baseToolTipGenerator
-                        = (CategoryToolTipGenerator) pc.clone();
-            }
-            else {
-                throw new CloneNotSupportedException(
-                        "Base tool tip generator not cloneable.");
+                PublicCloneable pc = (PublicCloneable) this.baseToolTipGenerator;
+                clone.baseToolTipGenerator = (CategoryToolTipGenerator) pc.clone();
+            } else {
+                throw new CloneNotSupportedException("Base tool tip generator not cloneable.");
             }
         }
-
         if (this.urlGeneratorList != null) {
             clone.urlGeneratorList = (ObjectList) this.urlGeneratorList.clone();
         }
-
         if (this.baseURLGenerator != null) {
             if (this.baseURLGenerator instanceof PublicCloneable) {
                 PublicCloneable pc = (PublicCloneable) this.baseURLGenerator;
                 clone.baseURLGenerator = (CategoryURLGenerator) pc.clone();
-            }
-            else {
-                throw new CloneNotSupportedException(
-                        "Base item URL generator not cloneable.");
+            } else {
+                throw new CloneNotSupportedException("Base item URL generator not cloneable.");
             }
         }
-
         if (this.legendItemLabelGenerator instanceof PublicCloneable) {
-            clone.legendItemLabelGenerator = (CategorySeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemLabelGenerator);
+            clone.legendItemLabelGenerator = (CategorySeriesLabelGenerator) ObjectUtilities.clone(this.legendItemLabelGenerator);
         }
         if (this.legendItemToolTipGenerator instanceof PublicCloneable) {
-            clone.legendItemToolTipGenerator = (CategorySeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemToolTipGenerator);
+            clone.legendItemToolTipGenerator = (CategorySeriesLabelGenerator) ObjectUtilities.clone(this.legendItemToolTipGenerator);
         }
         if (this.legendItemURLGenerator instanceof PublicCloneable) {
-            clone.legendItemURLGenerator = (CategorySeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemURLGenerator);
+            clone.legendItemURLGenerator = (CategorySeriesLabelGenerator) ObjectUtilities.clone(this.legendItemURLGenerator);
         }
         return clone;
     }
@@ -1759,8 +1530,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return A domain axis.
      */
-    protected CategoryAxis getDomainAxis(CategoryPlot plot, 
-            CategoryDataset dataset) {
+    protected CategoryAxis getDomainAxis(CategoryPlot plot, CategoryDataset dataset) {
         int datasetIndex = plot.indexOf(dataset);
         return plot.getDomainAxisForDataset(datasetIndex);
     }
@@ -1796,9 +1566,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         }
         int index = this.plot.getIndexOf(this);
         CategoryDataset dataset = this.plot.getDataset(index);
-        boolean cond = SketchRequest.queryCondition(dataset.getClass(), new String[]{"dataset","result","plot"}, new Object[]{dataset,result,plot}, 1, 1, true, 0);
-        if (cond) {
-//        if (dataset != null) {
+        if (Sketch4J.EXPOP(CategoryDataset.class, new String[] { "dataset", "null" }, new Object[] { dataset, null }, 0, true, 1, 0)) {
             return result;
         }
         int seriesCount = dataset.getRowCount();
@@ -1811,8 +1579,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
                     }
                 }
             }
-        }
-        else {
+        } else {
             for (int i = seriesCount - 1; i >= 0; i--) {
                 if (isSeriesVisibleInLegend(i)) {
                     LegendItem item = getLegendItem(index, i);
@@ -1837,9 +1604,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.2.0
      */
-    protected void addEntity(EntityCollection entities, Shape hotspot,
-            CategoryDataset dataset, int row, int column, boolean selected) {
-
+    protected void addEntity(EntityCollection entities, Shape hotspot, CategoryDataset dataset, int row, int column, boolean selected) {
         if (hotspot == null) {
             throw new IllegalArgumentException("Null 'hotspot' argument.");
         }
@@ -1863,9 +1628,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.2.0
      */
-    protected void addEntity(EntityCollection entities, Shape hotspot,
-            CategoryDataset dataset, int row, int column, boolean selected,
-            double entityX, double entityY) {
+    protected void addEntity(EntityCollection entities, Shape hotspot, CategoryDataset dataset, int row, int column, boolean selected, double entityX, double entityY) {
         if (!getItemCreateEntity(row, column, selected)) {
             return;
         }
@@ -1875,14 +1638,12 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             double w = r * 2;
             if (getPlot().getOrientation() == PlotOrientation.VERTICAL) {
                 s = new Ellipse2D.Double(entityX - r, entityY - r, w, w);
-            }
-            else {
+            } else {
                 s = new Ellipse2D.Double(entityY - r, entityX - r, w, w);
             }
         }
         String tip = null;
-        CategoryToolTipGenerator generator = getToolTipGenerator(row, column,
-                selected);
+        CategoryToolTipGenerator generator = getToolTipGenerator(row, column, selected);
         if (generator != null) {
             tip = generator.generateToolTip(dataset, row, column);
         }
@@ -1891,12 +1652,11 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         if (urlster != null) {
             url = urlster.generateURL(dataset, row, column);
         }
-        CategoryItemEntity entity = new CategoryItemEntity(s, tip, url,
-                dataset, dataset.getRowKey(row), dataset.getColumnKey(column));
+        CategoryItemEntity entity = new CategoryItemEntity(s, tip, url, dataset, dataset.getRowKey(row), dataset.getColumnKey(column));
         entities.add(entity);
     }
 
-        /**
+    /**
      * Returns a shape that can be used for hit testing on a data item drawn
      * by the renderer.
      *
@@ -1913,10 +1673,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return A shape equal to the hot spot for a data item.
      */
-    public Shape createHotSpotShape(Graphics2D g2, Rectangle2D dataArea,
-            CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis,
-            CategoryDataset dataset, int row, int column, boolean selected,
-            CategoryItemRendererState state) {
+    public Shape createHotSpotShape(Graphics2D g2, Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis, CategoryDataset dataset, int row, int column, boolean selected, CategoryItemRendererState state) {
         throw new RuntimeException("Not implemented.");
     }
 
@@ -1938,10 +1695,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @param result
      * @return
      */
-    public Rectangle2D createHotSpotBounds(Graphics2D g2, Rectangle2D dataArea,
-            CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis,
-            CategoryDataset dataset, int row, int column, boolean selected,
-            CategoryItemRendererState state, Rectangle2D result) {
+    public Rectangle2D createHotSpotBounds(Graphics2D g2, Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis, CategoryDataset dataset, int row, int column, boolean selected, CategoryItemRendererState state, Rectangle2D result) {
         if (result == null) {
             result = new Rectangle();
         }
@@ -1950,11 +1704,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         if (y == null) {
             return null;
         }
-        double xx = domainAxis.getCategoryMiddle(key,
-                plot.getCategoriesForAxis(domainAxis),
-                dataArea, plot.getDomainAxisEdge());
-        double yy = rangeAxis.valueToJava2D(y.doubleValue(), dataArea,
-                plot.getRangeAxisEdge());
+        double xx = domainAxis.getCategoryMiddle(key, plot.getCategoriesForAxis(domainAxis), dataArea, plot.getDomainAxisEdge());
+        double yy = rangeAxis.valueToJava2D(y.doubleValue(), dataArea, plot.getRangeAxisEdge());
         result.setRect(xx - 2, yy - 2, 4, 4);
         return result;
     }
@@ -1980,19 +1731,13 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @since 1.2.0
      */
-    public boolean hitTest(double xx, double yy, Graphics2D g2,
-            Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, int row, int column,
-            boolean selected, CategoryItemRendererState state) {
-        Rectangle2D bounds = createHotSpotBounds(g2, dataArea, plot,
-                domainAxis, rangeAxis, dataset, row, column, selected,
-                state, null);
+    public boolean hitTest(double xx, double yy, Graphics2D g2, Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis, CategoryDataset dataset, int row, int column, boolean selected, CategoryItemRendererState state) {
+        Rectangle2D bounds = createHotSpotBounds(g2, dataArea, plot, domainAxis, rangeAxis, dataset, row, column, selected, state, null);
         if (bounds == null) {
             return false;
         }
-        // FIXME:  if the following test passes, we should then do the more
         // expensive test against the hotSpotShape
         return bounds.contains(xx, yy);
     }
-    
 }
+
