@@ -1,6 +1,6 @@
-# sketch4j_evaluation
+# EdSketch Evaluation Dataset
 
-This repository lists the sketch4j evaluation subjects for the submission of SPIN 2017 for cross validation.
+This repository lists the EdSketch evaluation subjects for the submission of STTT 2018 for cross validation.
 
 * data structure subjects
 
